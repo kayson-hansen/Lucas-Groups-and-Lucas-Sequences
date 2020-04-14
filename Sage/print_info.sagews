@@ -26,7 +26,7 @@ for p in range(3, 100):
                 weak_luc_group_pseudos += 1
         print "Number of Strong Pseudoprimes: ", Rational(strong_pseudos)
         print "Number of Pseudoprimes: ", Rational(pseudos)
-        print "Number of Lucas Group Pseudoprimes: ", Rational(weak_luc_group_pseudos)
         print "Number of Strong Lucas Group Pseudoprimes: ", Rational(luc_group_pseudos)
+        print "Number of Lucas Group Pseudoprimes: ", Rational(weak_luc_group_pseudos)
         print n
         print "\n"

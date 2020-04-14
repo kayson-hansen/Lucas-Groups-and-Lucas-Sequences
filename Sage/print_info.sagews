@@ -1,3 +1,5 @@
+from functions import elements, lucas_sequence, strong_test, probable_test, new_strong_primality_test, new_weak_primality_test
+
 print("p | Order of Lucas Group | P | Order of Lucas Sequence | Ratio of Orders\n")
 for p in range(3, 100):
     if p % 2 == 1:

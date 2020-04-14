@@ -1,3 +1,9 @@
+"""
+This file implements various functions related to Lucas Groups. There is functionality for finding the elements
+of a Lucas Group given values for the parameters D and p, testing if an element generates the group, finding
+the order of the Lucas Group, etc. 
+"""
+
 import random
 from math import sqrt
 from arith_lib import gcd
@@ -189,34 +195,7 @@ def new_weak_primality_test(P, D, p):
     if element == (2,0):
         return True
 
-#implements a new version of the strong primality test
-def new_strong_primality_test(P, D, p):
-    solutions = []
-    for X in range(0, p):
-        for Y in range(0, p):
-            if (X**2 - D*Y**2)%p == 1%p:
-                solutions.append((X,Y))
-    lucas_group = list(set(solutions))
-    generator = choice(lucas_group)
-    element = generator
-    f = list(factor(p-jacobi_symbol(D, p)))
-    s = 0
-    for j in f:
-        if j[0] == 2:
-            s = j[1]
-            break
-    q = (p-jacobi_symbol(D, p))/2**s
-    powers = [(1,0), generator]
-    for i in range(2, p-jacobi_symbol(D, p)+1):
-        element = ((element[0]*generator[0]+D*element[1]*generator[1]) % p, (element[0]*generator[1]+element[1]*generator[0]) % p)
-        powers.append(element)
-    if powers[q] == (1,0):
-        return True
-    else:
-        for r in range(0, s):
-            if powers[q*(2**r)] == (-1,0):
-                return True
-
+#implements a new primality test
 def new_primality_test(P, D, p):
     lucas_group = list(elements(D,p))
     generator = choice(lucas_group)
@@ -240,36 +219,7 @@ def new_primality_test(P, D, p):
                 return True
     return False
 
-print("p | Order of Lucas Group | P | Order of Lucas Sequence | Ratio of Orders\n")
-for p in range(3, 100):
-    if p % 2 == 1:
-        i = 0
-        strong_pseudos = 0
-        pseudos = 0
-        luc_group_pseudos = 0
-        weak_luc_group_pseudos = 0
-        n = 0
-        print p
-        for P in range(1, p):
-            D = (P**2-4) % p
-            ratio = len(elements(D,p))/lucas_sequence(P,p,D)
-            if ratio == 1:
-                n += 1
-            print p, "\t", len(elements(D,p)), "\t\t", P, "\t\t\t", lucas_sequence(P,p,D), "\t\t\t", ratio
-            if strong_test(p, P) == "Strong Pseudoprime":
-                strong_pseudos += 1
-            if probable_test(p, P) == "Pseudoprime":
-                pseudos += 1
-            if new_strong_primality_test(P,D,p) == True:
-                luc_group_pseudos += 1
-            if new_weak_primality_test(P,D,p) == True:
-                weak_luc_group_pseudos += 1
-        print "Number of Strong Pseudoprimes: ", Rational(strong_pseudos)
-        print "Number of Pseudoprimes: ", Rational(pseudos)
-        print "Number of Lucas Group Pseudoprimes: ", Rational(weak_luc_group_pseudos)
-        print "Number of Strong Lucas Group Pseudoprimes: ", Rational(luc_group_pseudos)
-        print n
-        print "\n"
+
 
 
 
